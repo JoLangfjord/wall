@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SensorNordic – VM-profeten 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --red:#CC0000; --black:#0e0e0e; --white:#FFF; --gold:#F0B429; --line:#1e1e1e; }
+  html, body { width:100vw; height:100vh; background:var(--black); color:var(--white); font-family:'Inter',sans-serif; overflow:hidden; display:flex; flex-direction:column; }
+  header { flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:1.6vh 2.4vw 1.4vh; border-bottom:2px solid var(--red); }
+  .logo { font-size:clamp(14px,2vw,32px); font-weight:900; letter-spacing:-0.02em; }
+  .logo span { color:var(--red); }
+  .league-name { font-size:clamp(10px,1.1vw,18px); color:#777; text-transform:uppercase; letter-spacing:0.08em; margin-top:2px; }
+  .header-right { text-align:right; }
+  .updated { font-size:clamp(9px,0.85vw,13px); color:#555; margin-bottom:3px; }
+  .live-pill { display:inline-flex; align-items:center; gap:6px; background:var(--red); color:#fff; font-size:clamp(9px,0.8vw,13px); font-weight:700; padding:3px 10px; border-radius:100px; text-transform:uppercase; letter-spacing:0.08em; }
+  .live-dot { width:7px; height:7px; border-radius:50%; background:#fff; }
+  .table-wrap { flex:1; overflow:hidden; padding:0 2.4vw; display:flex; flex-direction:column; }
+  table { width:100%; border-collapse:collapse; table-layout:fixed; height:100%; }
+  colgroup col:nth-child(1){width:7%} colgroup col:nth-child(2){width:52%} colgroup col:nth-child(3){width:20%} colgroup col:nth-child(4){width:21%}
+  thead th { font-size:clamp(8px,0.75vw,12px); font-weight:500; color:#444; text-transform:uppercase; letter-spacing:0.08em; padding:1.2vh 0.6vw 0.8vh; border-bottom:1px solid var(--line); vertical-align:bottom; }
+  thead th:first-child{text-align:center} thead th:nth-child(2){text-align:left} thead th:nth-child(3){text-align:center} thead th:last-child{text-align:right}
+  tbody tr { border-bottom:1px solid var(--line); } tbody tr:last-child { border-bottom:none; }
+  tbody td { padding:0 0.6vw; vertical-align:middle; height:1px; }
+  .col-rank{text-align:center;font-weight:700;color:#333} .col-rank.top{color:var(--white)}
+  .col-name{font-weight:500;color:var(--white)} .col-exact{text-align:center;color:#444} .col-exact.hit{color:var(--gold);font-weight:600}
+  .col-pts{text-align:right;font-weight:700;color:var(--white);display:flex;align-items:center;justify-content:flex-end;gap:0.5vw;height:100%}
+  .bar{height:3px;background:#222;border-radius:2px;flex:1;max-width:5vw;overflow:hidden} .bar-fill{height:100%;background:var(--red);border-radius:2px}
+  footer { flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:1vh 2.4vw 1.4vh; border-top:1px solid var(--line); }
+  .footer-url{font-size:clamp(8px,0.7vw,11px);color:#333} .footer-count{font-size:clamp(8px,0.75vw,12px);color:#444}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">SENSOR<span>NORDIC</span></div>
+    <div class="league-name">VM-Profeten 2026</div>
+  </div>
+  <div class="header-right">
+    <div class="updated">Oppdatert: 23. juni 2026</div>
+    <div class="live-pill"><span class="live-dot"></span> SensorNordic</div>
+  </div>
+</header>
+<div class="table-wrap">
+  <table>
+    <colgroup><col><col><col><col></colgroup>
+    <thead><tr><th>#</th><th>Deltaker</th><th>Fulltreffer</th><th>Poeng</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+<footer>
+  <div class="footer-url">vglive.vg.no · SensorNordic liga 7373</div>
+  <div class="footer-count">20 deltakere</div>
+</footer>
+<script>
+const data = [
+  {rank:1,  name:'Petter Adelsøn',   exact:7, pts:76},
+  {rank:2,  name:'Emil Tonerud',     exact:6, pts:71},
+  {rank:3,  name:'Stig Martinsen',   exact:6, pts:70},
+  {rank:4,  name:'Lene Ness Larsen', exact:6, pts:69},
+  {rank:5,  name:'matssyverstad',    exact:4, pts:67},
+  {rank:6,  name:'Martin Torget',    exact:5, pts:66},
+  {rank:7,  name:'anders',           exact:5, pts:64},
+  {rank:8,  name:'Kjetil Ulriksen',  exact:2, pts:63},
+  {rank:9,  name:'adajohnsen',       exact:4, pts:62},
+  {rank:10, name:'Teipen',           exact:5, pts:61},
+  {rank:11, name:'annecathrine',     exact:3, pts:61},
+  {rank:12, name:'Jan Rasmussen',    exact:4, pts:59},
+  {rank:13, name:'Kenneth',          exact:2, pts:58},
+  {rank:14, name:'john',             exact:7, pts:56},
+  {rank:15, name:'ronny',            exact:4, pts:55},
+  {rank:16, name:'Jo Langfjord',     exact:1, pts:51},
+  {rank:17, name:'heidi',            exact:3, pts:48},
+  {rank:18, name:'alexander',        exact:3, pts:43},
+  {rank:19, name:'annette',          exact:0, pts:0},
+  {rank:19, name:'Tor Huus',         exact:0, pts:0},
+];
+const medals = {1:'🥇',2:'🥈',3:'🥉'};
+const maxPts = Math.max(...data.map(r => r.pts), 1);
+function autoFontSize(n) {
+  const avail = window.innerHeight - 80 - 44 - 40;
+  return Math.max(9, Math.min(20, (avail / n) * 0.42));
+}
+function render() {
+  const fs = autoFontSize(data.length);
+  document.getElementById('tbody').innerHTML = data.map(r => {
+    const bar = Math.round((r.pts / maxPts) * 100);
+    return `<tr>
+      <td class="col-rank${r.rank<=3?' top':''}" style="font-size:${fs}px">${medals[r.rank]||r.rank}</td>
+      <td class="col-name" style="font-size:${fs}px">${r.name}</td>
+      <td class="col-exact${r.exact>0?' hit':''}" style="font-size:${fs*.9}px">${r.exact>0?'★ '+r.exact:'–'}</td>
+      <td style="padding-right:0.6vw"><div class="col-pts" style="font-size:${fs*1.05}px">
+        <div class="bar"><div class="bar-fill" style="width:${bar}%"></div></div>${r.pts}
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+render();
+window.addEventListener('resize', render);
+</script>
+</body>
+</html>
